@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Level_1
   GameSeed: Level_1
-  CurrentSeed: 548016184
+  CurrentSeed: -85554364
   RandomizeSeed: 1
   NumberOfPoints: 50
   roadWidth: 2
-  DistanceBetweenPoints: 1.5
   HasCurves: 1
-  CurveGenerationDifficulty: 20
+  CurveGenerationDifficulty: 10
   CubesGenerationDifficulty: 3
   ObstacleGenerationDifficulty: 5

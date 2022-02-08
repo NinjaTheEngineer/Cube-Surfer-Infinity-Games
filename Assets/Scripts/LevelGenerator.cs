@@ -124,4 +124,9 @@ public class LevelGenerator : MonoBehaviour
 
         return bezierPath;
     }
+
+    public PathCreator GetPathCreator()
+    {
+        return pathCreator;
+    }
 }
