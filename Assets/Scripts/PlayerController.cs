@@ -18,13 +18,6 @@ public class PlayerController : MonoBehaviour
     private bool leftCheck = false;
     private bool rightCheck = false;
     
-    public void Initialize(PathCreator pathCreator)
-    {
-        this.pathCreator = pathCreator;
-        Vector3 initiaPos = pathCreator.path.GetPointAtDistance(0);
-        initiaPos.y += initYOffset;
-        transform.position = initiaPos;
-    }
     private void Update()
     {
         horizontalMovement = Input.GetAxisRaw("Horizontal");
@@ -36,19 +29,32 @@ public class PlayerController : MonoBehaviour
         if (gameStarted)
         {
             distanceTravelled += Speed * Time.deltaTime;
-            transform.position += transform.forward * Time.deltaTime * Speed;
-            perpendicularVector = Vector3.Cross(transform.forward, Vector3.up).normalized;
+            HandleMovementAndRotation();
+        }
+    }
+    public void Initialize(PathCreator pathCreator)
+    {
+        this.pathCreator = pathCreator;
+        Vector3 initiaPos = pathCreator.path.GetPointAtDistance(0);
+        initiaPos.y += initYOffset;
+        transform.position = initiaPos;
+        transform.rotation = pathCreator.path.GetRotationAtDistance(0);
+        StartGame();
+    }
 
-            transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled);
+    private void HandleMovementAndRotation()
+    {
+        transform.position += transform.forward * Time.deltaTime * Speed;
+        perpendicularVector = Vector3.Cross(transform.forward, Vector3.up).normalized;
 
-            if (horizontalMovement != 0)
-            {
-                if (horizontalMovement > 0 && rightCheck || horizontalMovement < 0 && leftCheck)
-                    return;
+        transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled);
 
-                transform.position += perpendicularVector * -horizontalMovement * Time.deltaTime * Speed;
-            }
+        if (horizontalMovement != 0)
+        {
+            if (horizontalMovement > 0 && rightCheck || horizontalMovement < 0 && leftCheck)
+                return;
 
+            transform.position += perpendicularVector * -horizontalMovement * Time.deltaTime * Speed;
         }
     }
 

@@ -16,18 +16,21 @@ public class LevelGenerator : MonoBehaviour
     private Vector3[] listOfPoints;
     private Vector3 rotateDirection = new Vector3(1, 0, 0);
     private Vector3 initialDirection = new Vector3(0, 0, 1);
+
+    [SerializeField]
+    private GameEvent levelLoaded;
     private void Awake() //Fetch gameObject components
     {
         roadMeshCreator = GetComponent<RoadMeshCreator>();
         pathCreator = GetComponent<PathCreator>();
     }
-    public void SetUpLevels(LevelSO[] levels) //SetUp possible levels and SetUp level
+    public void SetUpLevels(LevelSO[] levels, int numberOfLevelsCompleted) //SetUp possible levels and SetUp level
     {
         Levels = levels;
-        SetUpLevelConfig();
+        SetUpLevelConfig(numberOfLevelsCompleted);
     }
 
-    private void SetUpLevelConfig()
+    private void SetUpLevelConfig(int numberOfLevelsCompleted)
     {
         //Set seed or generate a random one for the selected level
         if (Levels.Length == 0)
@@ -35,7 +38,8 @@ public class LevelGenerator : MonoBehaviour
             Debug.LogWarning("LevelGenerator doesn't have Levels assigned.");
             return;
         }
-        currentLevel = Levels[0];
+        currentLevel = numberOfLevelsCompleted > Levels.Length ?
+                    Levels[numberOfLevelsCompleted - 1] : Levels[numberOfLevelsCompleted];
 
         if (currentLevel.RandomizeSeed || currentLevel.CurrentSeed.ToString() == null)
         {
@@ -105,6 +109,7 @@ public class LevelGenerator : MonoBehaviour
             wall2.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
             wall2.position += wall1.transform.right * -(currentLevel.roadWidth + 0.2f);
         }
+        levelLoaded.Raise();
     }
     private bool ShouldGenerateCurve()
     {

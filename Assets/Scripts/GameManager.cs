@@ -7,17 +7,28 @@ public class GameManager : MonoBehaviour
 
     private LevelGenerator levelGenerator;
     private PlayerController playerController;
+    private int numberOfLevelsCompleted;
 
     private void Awake()
     {
+        numberOfLevelsCompleted = GetNumberOfLevelsCompleted();
         levelGenerator = Instantiate(LevelGenerator, Vector3.zero, Quaternion.identity).GetComponent<LevelGenerator>();
-        levelGenerator.SetUpLevels(listOfLevels);
+        levelGenerator.SetUpLevels(listOfLevels, numberOfLevelsCompleted);
         playerController = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerController>();
+    }
+
+    public void OnLevelWasLoaded()
+    {
         playerController.Initialize(levelGenerator.GetPathCreator());
     }
-    private void Start()
+
+    private int GetNumberOfLevelsCompleted()
     {
-        levelGenerator.SetUpLevels(listOfLevels);
+        return PlayerPrefs.GetInt("LevelsCompleted", 0);
+    }
+    private void SetNumberOfLevelsCompleted(int numberOfLevels)
+    {
+        PlayerPrefs.SetInt("LevelsCompleted", numberOfLevels);
     }
 
 }

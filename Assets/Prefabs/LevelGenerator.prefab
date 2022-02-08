@@ -126,6 +126,7 @@ MonoBehaviour:
     type: 3}
   possibleObstacles:
   - {fileID: 3614886388420580756, guid: 5b3edded69853f44483030482c8892cc, type: 3}
+  levelLoaded: {fileID: 11400000, guid: 55dfabaab4eac7449b3558cb0b56749b, type: 2}
 --- !u!1 &8794432086526211269
 GameObject:
   m_ObjectHideFlags: 0
