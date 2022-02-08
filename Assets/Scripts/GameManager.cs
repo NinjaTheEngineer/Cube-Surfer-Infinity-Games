@@ -1,7 +1,9 @@
 using UnityEngine;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    public CinemachineVirtualCamera cinemachine;
     public GameObject PlayerPrefab, LevelGenerator;
     public LevelSO[] listOfLevels;
 
@@ -15,6 +17,8 @@ public class GameManager : MonoBehaviour
         levelGenerator = Instantiate(LevelGenerator, Vector3.zero, Quaternion.identity).GetComponent<LevelGenerator>();
         levelGenerator.SetUpLevels(listOfLevels, numberOfLevelsCompleted);
         playerController = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerController>();
+        cinemachine.LookAt = playerController.GetComponent<Transform>();
+        cinemachine.Follow = playerController.GetComponent<Transform>();
     }
 
     public void OnLevelWasLoaded()
@@ -29,6 +33,11 @@ public class GameManager : MonoBehaviour
     private void SetNumberOfLevelsCompleted(int numberOfLevels)
     {
         PlayerPrefs.SetInt("LevelsCompleted", numberOfLevels);
+    }
+
+    public void OnLevelFailed()
+    {
+        playerController.LevelFailed();
     }
 
 }

@@ -128,6 +128,7 @@ MonoBehaviour:
   initY: 0.36
   cubeHeight: 0.75
   playerModelTransform: {fileID: 1718431455586933790}
+  levelFailed: {fileID: 11400000, guid: 55ff0b54c9825cf41bc4fa58e3e4d379, type: 2}
 --- !u!1 &1718431454274314597
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ccc1609b248554e908974a2212800a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 3
   leftCheckPos: {fileID: 1718431454621362625}
   rightCheckPos: {fileID: 1718431454274314596}
   WhatIsWall:

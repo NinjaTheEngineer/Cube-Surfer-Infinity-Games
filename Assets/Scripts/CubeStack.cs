@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class CubeStack : MonoBehaviour
 
     [SerializeField]
     private Transform playerModelTransform;
+    [SerializeField]
+    private GameEvent levelFailed;
     private List<GameObject> stackedCubes;
 
     private int amountOfCubesStacked = 0;
@@ -30,6 +33,11 @@ public class CubeStack : MonoBehaviour
         }
         else if (other.CompareTag("Obstacle") && !isOnTopOfObstacle)
         {
+            if (amountOfCubesStacked.Equals(0))
+            {
+                LevelFailed();
+                return;
+            }
             isOnTopOfObstacle = true;
             amountOfCubesStacked--;
             int lastCube = stackedCubes.Count - 1;
@@ -41,13 +49,19 @@ public class CubeStack : MonoBehaviour
             stackedCubes.RemoveAt(lastCube);
         }
     }
+
+    private void LevelFailed()
+    {
+        levelFailed.Raise();
+    }
+
     private void OnTriggerExit(Collider other)
     {
         Debug.Log(">TriggerExit -> " + other.tag);
         if (other.CompareTag("Obstacle") && isOnTopOfObstacle)
         {
             isOnTopOfObstacle = false;
-            other.tag = "PassedObstacle";
+            other.tag = "Untagged";
             playerModelTransform.localPosition = new Vector3(0, playerModelTransform.localPosition.y - cubeHeight, 0);
             transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
         }

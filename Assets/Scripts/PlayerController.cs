@@ -1,4 +1,5 @@
 using PathCreation;
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -56,6 +57,11 @@ public class PlayerController : MonoBehaviour
 
             transform.position += perpendicularVector * -horizontalMovement * Time.deltaTime * Speed;
         }
+    }
+
+    public void LevelFailed()
+    {
+        gameStarted = false;
     }
 
     private void WallChecks()
