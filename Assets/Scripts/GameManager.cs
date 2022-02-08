@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelWasLoaded()
     {
-        playerController.Initialize(levelGenerator.GetPathCreator());
+        playerController.Initialize(levelGenerator.GetPathCreator(), levelGenerator.GetEndPoint());
     }
 
     private int GetNumberOfLevelsCompleted()

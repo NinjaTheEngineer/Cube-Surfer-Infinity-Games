@@ -7,8 +7,10 @@ public class LevelGenerator : MonoBehaviour
 {
     public GameObject cubePrefab;
     public GameObject wallPrefab;
+    public GameObject endArcPrefab;
     public GameObject[] possibleObstacles;
 
+    private int lastPlaceablePoint;
     private LevelSO currentLevel;
     private LevelSO[] Levels;
     private PathCreator pathCreator;
@@ -59,11 +61,12 @@ public class LevelGenerator : MonoBehaviour
         Vector3 newPoint = Vector3.zero;
         listOfPoints = new Vector3[currentLevel.NumberOfPoints];
 
+        lastPlaceablePoint = Mathf.RoundToInt(currentLevel.NumberOfPoints * 0.9f);
         for (int i = 0; i < currentLevel.NumberOfPoints; i++)
         {
             newPoint += initialDirection;
             float randomRotation = Random.Range(0, 2) * 2 - 1;
-            if (currentLevel.HasCurves && ShouldGenerateCurve())
+            if (currentLevel.HasCurves && ShouldGenerateCurve() && i < lastPlaceablePoint)
                 initialDirection += (rotateDirection * randomRotation);
 
             listOfPoints[i] = newPoint;
@@ -74,13 +77,26 @@ public class LevelGenerator : MonoBehaviour
         roadMeshCreator.TriggerUpdate();
         roadMeshCreator.roadWidth = currentLevel.roadWidth;
         StartCoroutine(SpawnObstaclesAndCubes());
+        StartCoroutine(SpawnEndArc());
         StartCoroutine(SpawnWall());
-
+    }
+    private IEnumerator SpawnEndArc()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            yield return new WaitForEndOfFrame();
+            int pos = (lastPlaceablePoint * 3) + i + 1;
+            Transform endArc = Instantiate(endArcPrefab, pathCreator.bezierPath.GetPoint(pos),
+                                            Quaternion.identity).GetComponent<Transform>();
+            endArc.LookAt(pathCreator.bezierPath.GetPoint(pos + 1));
+            endArc.rotation *= Quaternion.Euler(0, 90, 0);
+        }
+        
     }
     private IEnumerator SpawnObstaclesAndCubes()
     {
         yield return new WaitForEndOfFrame();
-        for (int i = 5; i < pathCreator.bezierPath.NumAnchorPoints - 2; i++)
+        for (int i = 5; i < lastPlaceablePoint; i++)
         {
             if (ShouldGenerateCube())
             {
@@ -133,5 +149,9 @@ public class LevelGenerator : MonoBehaviour
     public PathCreator GetPathCreator()
     {
         return pathCreator;
+    }
+    public int GetEndPoint()
+    {
+        return lastPlaceablePoint;
     }
 }

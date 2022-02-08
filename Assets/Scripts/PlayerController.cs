@@ -11,10 +11,11 @@ public class PlayerController : MonoBehaviour
     private float distanceTravelled;
     private float horizontalMovement;
 
-    public Transform leftCheckPos, rightCheckPos;
-    public LayerMask WhatIsWall;
+    public Transform leftCheckPos, rightCheckPos, endCheckPos;
+    public LayerMask WhatIsWall, WhatIsEnd;
 
     private Vector3 perpendicularVector;
+    private int endPoint;
     private bool gameStarted = false;
     private bool leftCheck = false;
     private bool rightCheck = false;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalMovement = Input.GetAxisRaw("Horizontal");
         WallChecks();
+        EndCheck();
     }
 
     private void FixedUpdate()
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
             HandleMovementAndRotation();
         }
     }
-    public void Initialize(PathCreator pathCreator)
+    public void Initialize(PathCreator pathCreator, int endPoint)
     {
         this.pathCreator = pathCreator;
         Vector3 initiaPos = pathCreator.path.GetPointAtDistance(0);
@@ -82,7 +84,11 @@ public class PlayerController : MonoBehaviour
         {
             rightCheck = false;
         }
-
+    }
+    private void EndCheck()
+    {
+        if (Physics.Raycast(endCheckPos.position, endCheckPos.right, 5f, WhatIsEnd))
+            gameStarted = false;
     }
 
     public void StartGame()
