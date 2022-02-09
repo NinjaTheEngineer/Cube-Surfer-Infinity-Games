@@ -128,7 +128,9 @@ MonoBehaviour:
   initY: 0.36
   cubeHeight: 0.75
   playerModelTransform: {fileID: 1718431455586933790}
-  levelFailed: {fileID: 11400000, guid: 55ff0b54c9825cf41bc4fa58e3e4d379, type: 2}
+  onCollectedCube: {fileID: 11400000, guid: 077c5a2feafd6b44da711e3677ba79d8, type: 2}
+  onObstacleHit: {fileID: 11400000, guid: 909f1095dc31fb645917b5e70b8fb685, type: 2}
+  onLevelFailed: {fileID: 11400000, guid: 55ff0b54c9825cf41bc4fa58e3e4d379, type: 2}
 --- !u!1 &1718431454274314597
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +219,7 @@ MonoBehaviour:
   WhatIsEnd:
     serializedVersion: 2
     m_Bits: 1024
+  levelFinished: {fileID: 11400000, guid: d4c325513ff480e4aa38875e3f8c917d, type: 2}
 --- !u!1 &1718431454621362626
 GameObject:
   m_ObjectHideFlags: 0

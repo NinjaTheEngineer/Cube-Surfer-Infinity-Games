@@ -10,7 +10,7 @@ public class CubeStack : MonoBehaviour
     [SerializeField]
     private Transform playerModelTransform;
     [SerializeField]
-    private GameEvent levelFailed;
+    private GameEvent onCollectedCube, onObstacleHit, onLevelFailed;
     private List<GameObject> stackedCubes;
 
     private int amountOfCubesStacked = 0;
@@ -24,12 +24,7 @@ public class CubeStack : MonoBehaviour
     {
         if (other.CompareTag("Cube"))
         {
-            amountOfCubesStacked++;
-            playerModelTransform.localPosition = new Vector3(0, playerModelTransform.localPosition.y + cubeHeight, 0);
-            stackedCubes.Add(other.gameObject);
-            other.transform.SetParent(transform);
-            other.transform.localPosition = new Vector3(0, amountOfCubesStacked * cubeHeight, 0);
-            other.transform.localRotation = Quaternion.identity;
+            CollectingCube(other);
         }
         else if (other.CompareTag("Obstacle") && !isOnTopOfObstacle)
         {
@@ -38,21 +33,35 @@ public class CubeStack : MonoBehaviour
                 LevelFailed();
                 return;
             }
-            isOnTopOfObstacle = true;
-            amountOfCubesStacked--;
-            int lastCube = stackedCubes.Count - 1;
-            transform.localPosition = new Vector3(transform.localPosition.x, cubeHeight, transform.localPosition.z);
-            stackedCubes[lastCube].tag = "UsedCube";
-            stackedCubes[lastCube].transform.SetParent(null);
-            Vector3 cubePos = stackedCubes[lastCube].transform.localPosition;
-            stackedCubes[lastCube].transform.localPosition = new Vector3(cubePos.x, initY, cubePos.z);
-            stackedCubes.RemoveAt(lastCube);
+            ObstacleHit();
         }
     }
-
+    private void CollectingCube(Collider collider)
+    {
+        onCollectedCube.Raise();
+        amountOfCubesStacked++;
+        playerModelTransform.localPosition = new Vector3(0, playerModelTransform.localPosition.y + cubeHeight, 0);
+        stackedCubes.Add(collider.gameObject);
+        collider.transform.SetParent(transform);
+        collider.transform.localPosition = new Vector3(0, amountOfCubesStacked * cubeHeight, 0);
+        collider.transform.localRotation = Quaternion.identity;
+    }
+    private void ObstacleHit()
+    {
+        onObstacleHit.Raise();
+        isOnTopOfObstacle = true;
+        amountOfCubesStacked--;
+        int lastCube = stackedCubes.Count - 1;
+        transform.localPosition = new Vector3(transform.localPosition.x, cubeHeight, transform.localPosition.z);
+        stackedCubes[lastCube].tag = "UsedCube";
+        stackedCubes[lastCube].transform.SetParent(null);
+        Vector3 cubePos = stackedCubes[lastCube].transform.localPosition;
+        stackedCubes[lastCube].transform.localPosition = new Vector3(cubePos.x, initY, cubePos.z);
+        stackedCubes.RemoveAt(lastCube);
+    }
     private void LevelFailed()
     {
-        levelFailed.Raise();
+        onLevelFailed.Raise();
     }
 
     private void OnTriggerExit(Collider other)

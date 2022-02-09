@@ -7,21 +7,33 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab, LevelGenerator;
     public LevelSO[] listOfLevels;
 
+    private GameObject playerGO, levelGO;
     private LevelGenerator levelGenerator;
     private PlayerController playerController;
     private int numberOfLevelsCompleted;
 
     private void Awake()
     {
+        Initialize();
+    }
+    private void Initialize()
+    {
         numberOfLevelsCompleted = GetNumberOfLevelsCompleted();
-        levelGenerator = Instantiate(LevelGenerator, Vector3.zero, Quaternion.identity).GetComponent<LevelGenerator>();
+        levelGO = Instantiate(LevelGenerator, Vector3.zero, Quaternion.identity);
+        levelGenerator = levelGO.GetComponent<LevelGenerator>();
         levelGenerator.SetUpLevels(listOfLevels, numberOfLevelsCompleted);
-        playerController = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerController>();
+        playerGO = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
+        playerController = playerGO.GetComponent<PlayerController>();
         cinemachine.LookAt = playerController.GetComponent<Transform>();
         cinemachine.Follow = playerController.GetComponent<Transform>();
     }
-
-    public void OnLevelWasLoaded()
+    public void Restart()
+    {
+        Destroy(playerGO);
+        Destroy(levelGO);
+        Initialize();
+    }
+    public void OnLevelLoaded()
     {
         playerController.Initialize(levelGenerator.GetPathCreator(), levelGenerator.GetEndPoint());
     }

@@ -1983,6 +1983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2256810927974765089}
   - component: {fileID: 2256810927974765090}
+  - component: {fileID: 2497703730577523270}
   m_Layer: 10
   m_Name: EndArc
   m_TagString: Untagged
@@ -2025,6 +2026,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2497703730577523270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2256810927974765088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b952c97f4887234fbed48eaf7395022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: d4c325513ff480e4aa38875e3f8c917d, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2256810927974765090}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: celebrate
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2256810928014532647
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private PathCreator pathCreator;
-
     public float Speed = 5f;
+    public Transform leftCheckPos, rightCheckPos, endCheckPos;
+    public LayerMask WhatIsWall, WhatIsEnd;
+
+    [SerializeField] private GameEvent levelFinished;
+
+    private PathCreator pathCreator;
+    private Vector3 perpendicularVector;
+
     private float initYOffset = 0.36f;
     private float distanceTravelled;
     private float horizontalMovement;
 
-    public Transform leftCheckPos, rightCheckPos, endCheckPos;
-    public LayerMask WhatIsWall, WhatIsEnd;
-
-    private Vector3 perpendicularVector;
-    private int endPoint;
     private bool gameStarted = false;
     private bool leftCheck = false;
     private bool rightCheck = false;
@@ -87,8 +88,13 @@ public class PlayerController : MonoBehaviour
     }
     private void EndCheck()
     {
-        if (Physics.Raycast(endCheckPos.position, endCheckPos.right, 5f, WhatIsEnd))
-            gameStarted = false;
+        if (Physics.Raycast(endCheckPos.position, endCheckPos.right, 5f, WhatIsEnd) && gameStarted)
+            EndReached();
+    }
+    private void EndReached()
+    {
+        levelFinished.Raise();
+        gameStarted = false;
     }
 
     public void StartGame()

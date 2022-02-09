@@ -87,7 +87,7 @@ public class LevelGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
             int pos = (lastPlaceablePoint * 3) + i + 1;
             Transform endArc = Instantiate(endArcPrefab, pathCreator.bezierPath.GetPoint(pos),
-                                            Quaternion.identity).GetComponent<Transform>();
+                                            Quaternion.identity, transform).GetComponent<Transform>();
             endArc.LookAt(pathCreator.bezierPath.GetPoint(pos + 1));
             endArc.rotation *= Quaternion.Euler(0, 90, 0);
         }
@@ -100,13 +100,13 @@ public class LevelGenerator : MonoBehaviour
         {
             if (ShouldGenerateCube())
             {
-                Transform cube = Instantiate(cubePrefab, pathCreator.bezierPath.GetPoint(i * 3), Quaternion.identity).GetComponent<Transform>();
+                Transform cube = Instantiate(cubePrefab, pathCreator.bezierPath.GetPoint(i * 3), Quaternion.identity, transform).GetComponent<Transform>();
                 cube.LookAt(pathCreator.bezierPath.GetPoint(i * 3 + 1));
             }
             else if (ShouldGenerateObstacle())
             {
                 int randomObstacle = Random.Range(0, possibleObstacles.Length);
-                Transform obstacle = Instantiate(possibleObstacles[randomObstacle], pathCreator.bezierPath.GetPoint(i * 3), Quaternion.identity).GetComponent<Transform>();
+                Transform obstacle = Instantiate(possibleObstacles[randomObstacle], pathCreator.bezierPath.GetPoint(i * 3), Quaternion.identity, transform).GetComponent<Transform>();
                 obstacle.LookAt(pathCreator.bezierPath.GetPoint(i * 3 + 1));
             }
         }
@@ -117,11 +117,11 @@ public class LevelGenerator : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
 
-            Transform wall1 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity).GetComponent<Transform>();
+            Transform wall1 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity, transform).GetComponent<Transform>();
             wall1.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
             wall1.position += wall1.transform.right * (currentLevel.roadWidth + 0.2f);
 
-            Transform wall2 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity).GetComponent<Transform>();
+            Transform wall2 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity, transform).GetComponent<Transform>();
             wall2.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
             wall2.position += wall1.transform.right * -(currentLevel.roadWidth + 0.2f);
         }
