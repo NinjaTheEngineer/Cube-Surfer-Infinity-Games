@@ -37,34 +37,27 @@ public class GameManager : MonoBehaviour
         Destroy(playerGO);
         Destroy(levelGO);
         Destroy(uiManagerGO);
-        Initialize();
-    }
+        Initialize();    }
     public void OnLevelLoaded()
     {
         playerController.Initialize(levelGenerator.GetPathCreator(), levelGenerator.GetEndPoint());
         uiManager.HideInitialPanel();
     }
-
-    private int GetNumberOfLevelsCompleted()
+    public void OnLevelStart()
     {
-        return PlayerPrefs.GetInt("maxLevel", 0);
+        uiManager.OnLevelStart();
     }
-    private void SetNumberOfLevelsCompleted(int numberOfLevels)
-    {
-        PlayerPrefs.SetInt("maxLevel", numberOfLevels);
-    }
-
     public void OnLevelFailed()
     {
         playerController.LevelFailed();
+        uiManager.ShowFailedLevelScreen();
     }
-
     public void OnLevelFinished()
     {
         if(PlayerPrefs.GetInt("maxLevel", 0) <= currentLevel)
         {
             PlayerPrefs.SetInt("maxLevel", currentLevel + 1);
-            Debug.Log(">.SetInt(maxlevel) - " + (currentLevel + 1));
+            PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
             uiManager.UpdateAvailableLevels();
         }
     }

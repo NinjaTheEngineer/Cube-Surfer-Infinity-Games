@@ -7,41 +7,34 @@ public class PlayerController : MonoBehaviour
     public float Speed = 5f;
     public Transform leftCheckPos, rightCheckPos, endCheckPos;
     public LayerMask WhatIsWall, WhatIsEnd;
-    public TextMeshProUGUI beganPosText, movedPosText;
-    [SerializeField] private GameEvent levelFinished;
+    [SerializeField] private GameEvent levelFinished, levelStarted;
 
     private PathCreator pathCreator;
     private Vector3 perpendicularVector;
     private Vector3 touchBeginPos;
     private Vector3 touchMovedPos;
     private Touch touch;
-    private TextMeshProUGUI touchBegintext, touchMovedtext;
     private float initYOffset = 0.36f;
     private float distanceTravelled;
     private float horizontalMovement;
 
     private bool playerInitialized = false;
     private bool gameStarted = false;
+    private bool levelFailed = false;
     private bool leftCheck = false;
     private bool rightCheck = false;
-    private void Start()
-    {
-        touchBegintext = GameObject.Find("began").GetComponent<TextMeshProUGUI>();
-        touchMovedtext = GameObject.Find("moved").GetComponent<TextMeshProUGUI>();
 
-    }
     private void Update()
     {
+        CheckForLevelStart();
         HandlePlayerInput();
-        if (playerInitialized && (horizontalMovement > 0f || horizontalMovement < 0f))
-            gameStarted = true;
         WallChecks();
         EndCheck();
     }
 
     private void FixedUpdate()
     {
-        if (playerInitialized && gameStarted)
+        if ( gameStarted && !levelFailed)
         {
             distanceTravelled += Speed * Time.deltaTime;
             HandleMovementAndRotation();
@@ -66,14 +59,12 @@ public class PlayerController : MonoBehaviour
                     horizontalMovement = -1;
                 else
                     horizontalMovement = 0;
-                touchMovedtext.text = touchMovedPos.ToString();
             }
             else if(touch.phase == TouchPhase.Stationary)
             {
                 horizontalMovement = 0;
                 touchBeginPos = touch.position;
             }
-            touchBegintext.text = touchBeginPos.ToString();
         }
         else
         {
@@ -87,6 +78,14 @@ public class PlayerController : MonoBehaviour
 
 #endif
     }
+    private void CheckForLevelStart()
+    {
+        if ((horizontalMovement > 0f || horizontalMovement < 0f) && !levelFailed)
+        {
+            gameStarted = true;
+            levelStarted.Raise();
+        }
+    }
     public void Initialize(PathCreator pathCreator, int endPoint)
     {
         this.pathCreator = pathCreator;
@@ -94,9 +93,7 @@ public class PlayerController : MonoBehaviour
         initiaPos.y += initYOffset;
         transform.position = initiaPos;
         transform.rotation = pathCreator.path.GetRotationAtDistance(0);
-        playerInitialized = true;
     }
-
     private void HandleMovementAndRotation()
     {
         transform.position += transform.forward * Time.deltaTime * Speed;
@@ -112,12 +109,10 @@ public class PlayerController : MonoBehaviour
             transform.position += perpendicularVector * -horizontalMovement * Time.deltaTime * Speed;
         }
     }
-
     public void LevelFailed()
     {
-        gameStarted = false;
+        levelFailed = true;
     }
-
     private void WallChecks()
     {
         if (Physics.Raycast(leftCheckPos.position, -leftCheckPos.right, 0.5f, WhatIsWall))

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject initialPanel;
+    private GameObject initialPanel, replayMenu, swipeToStart, pauseButton;
 
     private LevelSelection levelSelection;
 
@@ -18,15 +18,27 @@ public class UIManager : MonoBehaviour
     {
         initialPanel.SetActive(false);
     }
-
     public void Initialize(int numberOfLevels)
     {
         levelSelection.Initialize(numberOfLevels);
     }
-
+    public void OnLevelStart()
+    {
+        swipeToStart.SetActive(false);
+    }
     public void UpdateAvailableLevels()
     {
         levelSelection.UpdateAvailableLevels();
+    }
+    public void RestartLevel()
+    {
+        replayMenu.SetActive(false);
+        levelSelection.RestartLevel();
+    }
+    public void ShowFailedLevelScreen()
+    {
+        replayMenu.SetActive(true);
+        pauseButton.SetActive(false);
     }
     public void OpenPauseMenu()
     {

@@ -220,6 +220,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   levelFinished: {fileID: 11400000, guid: d4c325513ff480e4aa38875e3f8c917d, type: 2}
+  levelStarted: {fileID: 11400000, guid: 972ff8bdae49bc64d9ca12c37d7593fd, type: 2}
 --- !u!1 &1718431454621362626
 GameObject:
   m_ObjectHideFlags: 0

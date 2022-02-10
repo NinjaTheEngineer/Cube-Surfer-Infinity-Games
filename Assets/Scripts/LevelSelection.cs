@@ -12,12 +12,13 @@ public class LevelSelection : MonoBehaviour
     [SerializeField]
     private GameEvent switchLevel;
     private List<Button> lvlButtons;
+    private int currentLevel;
     private int maxLevel;
 
     public void Initialize(int numberOfLevels)
     {
         lvlButtons = new List<Button>();
-
+        currentLevel = PlayerPrefs.GetInt("currentLevel", 0);
         for (int i = 0; i < numberOfLevels; i++)
         {
             int x = i;
@@ -30,6 +31,10 @@ public class LevelSelection : MonoBehaviour
     public void UpdateAvailableLevels()
     {
         StartCoroutine(UpdateLevels());
+    }
+    public void RestartLevel()
+    {
+        SwitchLevel(currentLevel);
     }
     IEnumerator UpdateLevels()
     {

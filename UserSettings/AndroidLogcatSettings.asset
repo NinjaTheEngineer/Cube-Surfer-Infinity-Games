@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "L2N0219701003799",
         "name": "com.DefaultCompany.CubeSurferInfinityGames",
-        "processId": 13245,
+        "processId": 13717,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -54,6 +54,12 @@
             "deviceId": "L2N0219701003799",
             "name": "com.DefaultCompany.CubeSurferInfinityGames",
             "processId": 13245,
+            "exited": false
+        },
+        {
+            "deviceId": "L2N0219701003799",
+            "name": "com.DefaultCompany.CubeSurferInfinityGames",
+            "processId": 13717,
             "exited": false
         }
     ],
