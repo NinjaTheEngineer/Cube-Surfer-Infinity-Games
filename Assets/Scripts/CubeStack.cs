@@ -66,7 +66,6 @@ public class CubeStack : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(">TriggerExit -> " + other.tag);
         if (other.CompareTag("Obstacle") && isOnTopOfObstacle)
         {
             isOnTopOfObstacle = false;

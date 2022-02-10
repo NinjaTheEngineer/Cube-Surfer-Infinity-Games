@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Level_1
   GameSeed: Level_1
-  CurrentSeed: -937054588
+  CurrentSeed: -590107498
   RandomizeSeed: 0
   NumberOfPoints: 70
   roadWidth: 3

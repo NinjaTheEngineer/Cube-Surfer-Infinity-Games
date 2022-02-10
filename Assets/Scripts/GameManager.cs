@@ -4,52 +4,75 @@ using Cinemachine;
 public class GameManager : MonoBehaviour
 {
     public CinemachineVirtualCamera cinemachine;
-    public GameObject PlayerPrefab, LevelGenerator;
+    public GameObject PlayerPrefab, LevelGeneratorPrefab, UIManagerPrefab;
     public LevelSO[] listOfLevels;
 
-    private GameObject playerGO, levelGO;
+    private UIManager uiManager;
+    private GameObject playerGO, levelGO, uiManagerGO;
     private LevelGenerator levelGenerator;
     private PlayerController playerController;
-    private int numberOfLevelsCompleted;
+    private int currentLevel;
 
     private void Awake()
     {
+        PlayerPrefs.DeleteAll();
         Initialize();
     }
     private void Initialize()
     {
-        numberOfLevelsCompleted = GetNumberOfLevelsCompleted();
-        levelGO = Instantiate(LevelGenerator, Vector3.zero, Quaternion.identity);
+        currentLevel = PlayerPrefs.GetInt("currentLevel", 0);
+        uiManagerGO = Instantiate(UIManagerPrefab, Vector3.zero, Quaternion.identity);
+        uiManager = uiManagerGO.GetComponent<UIManager>();
+        levelGO = Instantiate(LevelGeneratorPrefab, Vector3.zero, Quaternion.identity);
         levelGenerator = levelGO.GetComponent<LevelGenerator>();
-        levelGenerator.SetUpLevels(listOfLevels, numberOfLevelsCompleted);
+        levelGenerator.SetUpLevels(listOfLevels, currentLevel);
         playerGO = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         playerController = playerGO.GetComponent<PlayerController>();
         cinemachine.LookAt = playerController.GetComponent<Transform>();
         cinemachine.Follow = playerController.GetComponent<Transform>();
+        uiManager.Initialize(listOfLevels.Length);
     }
     public void Restart()
     {
         Destroy(playerGO);
         Destroy(levelGO);
+        Destroy(uiManagerGO);
         Initialize();
     }
     public void OnLevelLoaded()
     {
         playerController.Initialize(levelGenerator.GetPathCreator(), levelGenerator.GetEndPoint());
+        uiManager.HideInitialPanel();
     }
 
     private int GetNumberOfLevelsCompleted()
     {
-        return PlayerPrefs.GetInt("LevelsCompleted", 0);
+        return PlayerPrefs.GetInt("maxLevel", 0);
     }
     private void SetNumberOfLevelsCompleted(int numberOfLevels)
     {
-        PlayerPrefs.SetInt("LevelsCompleted", numberOfLevels);
+        PlayerPrefs.SetInt("maxLevel", numberOfLevels);
     }
 
     public void OnLevelFailed()
     {
         playerController.LevelFailed();
+    }
+
+    public void OnLevelFinished()
+    {
+        if(PlayerPrefs.GetInt("maxLevel", 0) <= currentLevel)
+        {
+            PlayerPrefs.SetInt("maxLevel", currentLevel + 1);
+            Debug.Log(">.SetInt(maxlevel) - " + (currentLevel + 1));
+            uiManager.UpdateAvailableLevels();
+        }
+    }
+
+    public void OnLevelSwitch()
+    {
+        currentLevel = PlayerPrefs.GetInt("currentLevel", 0);
+        Restart();
     }
 
 }

@@ -26,13 +26,17 @@ public class LevelGenerator : MonoBehaviour
         roadMeshCreator = GetComponent<RoadMeshCreator>();
         pathCreator = GetComponent<PathCreator>();
     }
-    public void SetUpLevels(LevelSO[] levels, int numberOfLevelsCompleted) //SetUp possible levels and SetUp level
+    public void SetUpLevels(LevelSO[] levels, int currentLevel) //SetUp possible levels and SetUp level
     {
         Levels = levels;
-        SetUpLevelConfig(numberOfLevelsCompleted);
+        SwitchLevel(currentLevel);
+    }
+    public void SwitchLevel(int currentLevel)
+    {
+        SetUpLevelConfig(currentLevel);
     }
 
-    private void SetUpLevelConfig(int numberOfLevelsCompleted)
+    private void SetUpLevelConfig(int level)
     {
         //Set seed or generate a random one for the selected level
         if (Levels.Length == 0)
@@ -40,8 +44,7 @@ public class LevelGenerator : MonoBehaviour
             Debug.LogWarning("LevelGenerator doesn't have Levels assigned.");
             return;
         }
-        currentLevel = numberOfLevelsCompleted > Levels.Length ?
-                    Levels[numberOfLevelsCompleted - 1] : Levels[numberOfLevelsCompleted];
+        currentLevel = Levels[level];
 
         if (currentLevel.RandomizeSeed || currentLevel.CurrentSeed.ToString() == null)
         {
@@ -74,8 +77,8 @@ public class LevelGenerator : MonoBehaviour
 
         pathCreator.bezierPath = GenerateBezierPath(listOfPoints, false, 1);
         pathCreator.bezierPath.GlobalNormalsAngle = 90f;
-        roadMeshCreator.TriggerUpdate();
         roadMeshCreator.roadWidth = currentLevel.roadWidth;
+        roadMeshCreator.TriggerUpdate();
         StartCoroutine(SpawnObstaclesAndCubes());
         StartCoroutine(SpawnEndArc());
         StartCoroutine(SpawnWall());
@@ -110,22 +113,22 @@ public class LevelGenerator : MonoBehaviour
                 obstacle.LookAt(pathCreator.bezierPath.GetPoint(i * 3 + 1));
             }
         }
+        levelLoaded.Raise();
     }
     private IEnumerator SpawnWall()
     {
+        yield return new WaitForEndOfFrame();
         for (int i = 0; i < pathCreator.bezierPath.NumPoints - 2; i += 1)
         {
-            yield return new WaitForEndOfFrame();
 
             Transform wall1 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity, transform).GetComponent<Transform>();
             wall1.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
-            wall1.position += wall1.transform.right * (currentLevel.roadWidth + 0.2f);
+            wall1.position += wall1.transform.right * (currentLevel.roadWidth + 0.5f);
 
             Transform wall2 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity, transform).GetComponent<Transform>();
             wall2.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
-            wall2.position += wall1.transform.right * -(currentLevel.roadWidth + 0.2f);
+            wall2.position += wall1.transform.right * -(currentLevel.roadWidth + 0.5f);
         }
-        levelLoaded.Raise();
     }
     private bool ShouldGenerateCurve()
     {
