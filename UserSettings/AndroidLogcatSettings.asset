@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "L2N0219701003799",
     "m_SelectedPackage": {
-        "deviceId": "L2N0219701003799",
-        "name": "com.DefaultCompany.CubeSurferInfinityGames",
-        "processId": 23821,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,61 +11,37 @@
         {
             "deviceId": "L2N0219701003799",
             "name": "com.DefaultCompany.CubeSurferInfinityGames",
-            "processId": 30285,
-            "exited": true
-        },
-        {
-            "deviceId": "L2N0219701003799",
-            "name": "com.DefaultCompany.CubeSurferInfinityGames",
-            "processId": 2101,
-            "exited": true
-        },
-        {
-            "deviceId": "L2N0219701003799",
-            "name": "com.DefaultCompany.CubeSurferInfinityGames",
-            "processId": 3623,
-            "exited": true
-        },
-        {
-            "deviceId": "L2N0219701003799",
-            "name": "com.DefaultCompany.CubeSurferInfinityGames",
-            "processId": 8868,
-            "exited": true
-        },
-        {
-            "deviceId": "L2N0219701003799",
-            "name": "com.DefaultCompany.CubeSurferInfinityGames",
-            "processId": 10463,
-            "exited": true
-        },
-        {
-            "deviceId": "L2N0219701003799",
-            "name": "com.DefaultCompany.CubeSurferInfinityGames",
             "processId": 11351,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "L2N0219701003799",
             "name": "com.DefaultCompany.CubeSurferInfinityGames",
             "processId": 12383,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "L2N0219701003799",
             "name": "com.DefaultCompany.CubeSurferInfinityGames",
             "processId": 13245,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "L2N0219701003799",
             "name": "com.DefaultCompany.CubeSurferInfinityGames",
             "processId": 13717,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "L2N0219701003799",
             "name": "com.DefaultCompany.CubeSurferInfinityGames",
             "processId": 23821,
+            "exited": true
+        },
+        {
+            "deviceId": "L2N0219701003799",
+            "name": "com.huawei.android.launcher",
+            "processId": 2273,
             "exited": false
         }
     ],
