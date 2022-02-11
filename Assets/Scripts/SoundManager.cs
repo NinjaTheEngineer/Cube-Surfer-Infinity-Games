@@ -39,7 +39,6 @@ public class SoundManager: MonoBehaviour
     }
     public void PlayFinishedLevel()
     {
-        Debug.Log(">Finished Level");
         PlaySound(Sound.FinishedLevel);
     }
     public void PlayLostLevel()

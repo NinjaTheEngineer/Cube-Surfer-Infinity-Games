@@ -131,12 +131,6 @@ public class LevelGenerator : MonoBehaviour
             wall1.position += wall1.transform.right * (currentLevel.roadWidth + 0.5f);
 
             Transform wall2 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity, transform).GetComponent<Transform>();
-            //wall1.LookAt(wall2);
-            //wall2.LookAt(wall1);
-            //wall1.position += -wall1.transform.forward * (currentLevel.roadWidth + 0.5f);
-            //wall2.position += wall2.transform.forward * (currentLevel.roadWidth + 0.5f);
-            //wall1.rotation *= Quaternion.Euler(0, 90, 0);
-            //wall2.rotation *= Quaternion.Euler(0, 90, 0);
             wall2.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
             wall2.position += wall1.transform.right * -(currentLevel.roadWidth + 0.5f);
         }

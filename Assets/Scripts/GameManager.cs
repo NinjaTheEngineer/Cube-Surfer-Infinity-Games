@@ -56,14 +56,15 @@ public class GameManager : MonoBehaviour
     }
     public void OnLevelFinished()
     {
-        if(PlayerPrefs.GetInt("maxLevel", 0) <= currentLevel && PlayerPrefs.GetInt("maxLevel", 0) <= listOfLevels.Length)
+        Debug.Log("maxlevel -> " + PlayerPrefs.GetInt("maxLevel", 0) + "__ currentLevel-> " + currentLevel);
+
+        if (PlayerPrefs.GetInt("maxLevel", 0) < listOfLevels.Length)
+            PlayerPrefs.SetInt("maxLevel", currentLevel + 1); 
+ 
+        if(currentLevel < listOfLevels.Length - 1 && PlayerPrefs.GetInt("maxLevel", 0) > currentLevel)
         {
-            PlayerPrefs.SetInt("maxLevel", currentLevel + 1);
             PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
             uiManager.UpdateAvailableLevels();
-        }
-        if(currentLevel <= listOfLevels.Length - 1)
-        {
             uiManager.ShowNextLevelScreen();
         }
         else
