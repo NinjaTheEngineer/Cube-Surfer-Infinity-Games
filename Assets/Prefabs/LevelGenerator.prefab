@@ -124,6 +124,8 @@ MonoBehaviour:
     type: 3}
   wallPrefab: {fileID: 3614886388420580756, guid: 787ab6187992dd940b84bdd78a84969d,
     type: 3}
+  cheesePrefab: {fileID: 4300263544716901602, guid: cb5cc7bd54c8a1b4bbb3dc17457a19ec,
+    type: 3}
   endArcPrefab: {fileID: 2256810927974765088, guid: ea8cefaae63374e46a2347e63f9a1573,
     type: 3}
   possibleObstacles:

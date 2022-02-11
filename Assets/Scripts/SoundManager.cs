@@ -44,6 +44,10 @@ public class SoundManager: MonoBehaviour
     {
         PlaySound(Sound.ObstacleHit);
     }
+    public void PlayEatCheese()
+    {
+        PlaySound(Sound.EatCheese);
+    }
 
     public enum Sound
     {
@@ -51,7 +55,8 @@ public class SoundManager: MonoBehaviour
         ObstacleHit,
         LostLevel,
         FinishedLevel,
-        ButtonClick
+        ButtonClick,
+        EatCheese
     }
 
     [System.Serializable]

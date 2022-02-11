@@ -10,7 +10,7 @@ public class LevelSelection : MonoBehaviour
     public GameObject levelButtonPrefab;
 
     [SerializeField]
-    private GameEvent switchLevel;
+    private GameEvent switchLevel, onButtonClick;
     private List<Button> lvlButtons;
     private int currentLevel;
     private int maxLevel;
@@ -23,7 +23,11 @@ public class LevelSelection : MonoBehaviour
         {
             int x = i;
             Button button = Instantiate(levelButtonPrefab, buttonsGrid).GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => SwitchLevel(x));
+            button.onClick.AddListener(delegate
+                                            {
+                                                SwitchLevel(x);
+                                                onButtonClick.Raise();
+                                            });
             lvlButtons.Add(button);
         }
         UpdateAvailableLevels();

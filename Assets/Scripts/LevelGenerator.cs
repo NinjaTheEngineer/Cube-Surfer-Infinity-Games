@@ -7,6 +7,7 @@ public class LevelGenerator : MonoBehaviour
 {
     public GameObject cubePrefab;
     public GameObject wallPrefab;
+    public GameObject cheesePrefab;
     public GameObject endArcPrefab;
     public GameObject[] possibleObstacles;
 
@@ -79,7 +80,7 @@ public class LevelGenerator : MonoBehaviour
         pathCreator.bezierPath.GlobalNormalsAngle = 90f;
         roadMeshCreator.roadWidth = currentLevel.roadWidth;
         roadMeshCreator.TriggerUpdate();
-        StartCoroutine(SpawnObstaclesAndCubes());
+        StartCoroutine(SpawnPrefabs());
         StartCoroutine(SpawnEndArc());
         StartCoroutine(SpawnWall());
     }
@@ -96,7 +97,7 @@ public class LevelGenerator : MonoBehaviour
         }
         
     }
-    private IEnumerator SpawnObstaclesAndCubes()
+    private IEnumerator SpawnPrefabs()
     {
         yield return new WaitForEndOfFrame();
         for (int i = 5; i < lastPlaceablePoint; i++)
@@ -111,6 +112,10 @@ public class LevelGenerator : MonoBehaviour
                 int randomObstacle = Random.Range(0, possibleObstacles.Length);
                 Transform obstacle = Instantiate(possibleObstacles[randomObstacle], pathCreator.bezierPath.GetPoint(i * 3), Quaternion.identity, transform).GetComponent<Transform>();
                 obstacle.LookAt(pathCreator.bezierPath.GetPoint(i * 3 + 1));
+            }else if (ShouldGenerateCheese())
+            {
+                Transform cheese = Instantiate(cheesePrefab, pathCreator.bezierPath.GetPoint(i * 3), Quaternion.identity, transform).GetComponent<Transform>();
+                cheese.LookAt(pathCreator.bezierPath.GetPoint(i * 3 + 1));
             }
         }
         levelLoaded.Raise();
@@ -126,6 +131,12 @@ public class LevelGenerator : MonoBehaviour
             wall1.position += wall1.transform.right * (currentLevel.roadWidth + 0.5f);
 
             Transform wall2 = Instantiate(wallPrefab, pathCreator.bezierPath.GetPoint(i), Quaternion.identity, transform).GetComponent<Transform>();
+            //wall1.LookAt(wall2);
+            //wall2.LookAt(wall1);
+            //wall1.position += -wall1.transform.forward * (currentLevel.roadWidth + 0.5f);
+            //wall2.position += wall2.transform.forward * (currentLevel.roadWidth + 0.5f);
+            //wall1.rotation *= Quaternion.Euler(0, 90, 0);
+            //wall2.rotation *= Quaternion.Euler(0, 90, 0);
             wall2.LookAt(pathCreator.bezierPath.GetPoint(i + 1));
             wall2.position += wall1.transform.right * -(currentLevel.roadWidth + 0.5f);
         }
@@ -141,6 +152,10 @@ public class LevelGenerator : MonoBehaviour
     private bool ShouldGenerateCube()
     {
         return Random.Range(0, currentLevel.CubesGenerationDifficulty) == 1;
+    }
+    private bool ShouldGenerateCheese()
+    {
+        return Random.Range(0, currentLevel.CheeseGenerationDifficulty) == 1;
     }
     BezierPath GenerateBezierPath(Vector3[] points, bool closedPath, float vertexSpacing)
     {

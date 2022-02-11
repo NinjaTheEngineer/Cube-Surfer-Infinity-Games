@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1718431454107645495}
   - component: {fileID: 1718431454107645488}
   - component: {fileID: 1718431454107645489}
+  - component: {fileID: 2178241612197743638}
   m_Layer: 0
   m_Name: CubeStack
   m_TagString: Untagged
@@ -131,6 +132,19 @@ MonoBehaviour:
   onCollectedCube: {fileID: 11400000, guid: 077c5a2feafd6b44da711e3677ba79d8, type: 2}
   onObstacleHit: {fileID: 11400000, guid: 909f1095dc31fb645917b5e70b8fb685, type: 2}
   onLevelFailed: {fileID: 11400000, guid: 55ff0b54c9825cf41bc4fa58e3e4d379, type: 2}
+--- !u!114 &2178241612197743638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718431454107645491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325dff94f20ba7241bdff82c47aa60af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cheeseCollected: {fileID: 11400000, guid: d4cbae442970c5d4489a055036fec3bf, type: 2}
 --- !u!1 &1718431454274314597
 GameObject:
   m_ObjectHideFlags: 0

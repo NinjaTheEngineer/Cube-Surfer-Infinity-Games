@@ -55,6 +55,7 @@ public class CubeStack : MonoBehaviour
         transform.localPosition = new Vector3(transform.localPosition.x, cubeHeight, transform.localPosition.z);
         stackedCubes[lastCube].tag = "UsedCube";
         stackedCubes[lastCube].transform.SetParent(null);
+        Destroy(stackedCubes[lastCube].gameObject, 4f);
         Vector3 cubePos = stackedCubes[lastCube].transform.localPosition;
         stackedCubes[lastCube].transform.localPosition = new Vector3(cubePos.x, initY, cubePos.z);
         stackedCubes.RemoveAt(lastCube);
@@ -73,6 +74,5 @@ public class CubeStack : MonoBehaviour
             playerModelTransform.localPosition = new Vector3(0, playerModelTransform.localPosition.y - cubeHeight, 0);
             transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
         }
-
     }
 }

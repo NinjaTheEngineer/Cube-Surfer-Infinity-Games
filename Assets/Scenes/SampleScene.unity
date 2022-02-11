@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 373849433}
   - component: {fileID: 373849434}
   - component: {fileID: 373849435}
+  - component: {fileID: 373849436}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -378,6 +379,34 @@ MonoBehaviour:
       - m_Target: {fileID: 373849430}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: OnLevelSwitch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &373849436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373849429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b952c97f4887234fbed48eaf7395022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: d4cbae442970c5d4489a055036fec3bf, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 373849430}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnCheeseCollected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -539,8 +568,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778122797}
-  m_LocalRotation: {x: -0.0592662, y: 0.8041009, z: -0.08133708, w: -0.58591264}
-  m_LocalPosition: {x: -44.47889, y: 1.9770265, z: 18.748215}
+  m_LocalRotation: {x: -0.17340732, y: 0.015360324, z: -0.0027049405, w: -0.98472667}
+  m_LocalPosition: {x: 540.0015, y: 1080.5494, z: -1.032402}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 341647309}
@@ -583,7 +612,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -624,8 +653,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.0592662, y: 0.8041009, z: -0.08133708, w: -0.58591264}
-  m_LocalPosition: {x: -44.47889, y: 1.9770265, z: 18.748215}
+  m_LocalRotation: {x: -0.17340732, y: 0.015360324, z: -0.0027049405, w: -0.98472667}
+  m_LocalPosition: {x: 540.0015, y: 1080.5494, z: -1.032402}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -746,6 +775,7 @@ GameObject:
   - component: {fileID: 1933608932}
   - component: {fileID: 1933608931}
   - component: {fileID: 1933608930}
+  - component: {fileID: 1933608935}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -776,6 +806,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 8d050ec951099464a87a4de2324a6ba1, type: 3}
   - sound: 4
     audioClip: {fileID: 8300000, guid: 9b5c9971348943d4991192050d7daa53, type: 3}
+  - sound: 5
+    audioClip: {fileID: 8300000, guid: e4e341f78b6ff2c49ab239aac09e327c, type: 3}
 --- !u!4 &1933608929
 Transform:
   m_ObjectHideFlags: 0
@@ -921,6 +953,34 @@ MonoBehaviour:
       - m_Target: {fileID: 1933608928}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: PlayLostLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1933608935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933608927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b952c97f4887234fbed48eaf7395022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: d4cbae442970c5d4489a055036fec3bf, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1933608928}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayEatCheese
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

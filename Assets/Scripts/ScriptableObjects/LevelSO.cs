@@ -14,7 +14,8 @@ public class LevelSO : ScriptableObject
     public float roadWidth;
     public bool HasCurves = false;
     [Range(0, 100)] public int CurveGenerationDifficulty;
-    [Range(2, 10)] public int CubesGenerationDifficulty = 3;
+    [Range(2, 5)] public int CheeseGenerationDifficulty = 2;
+    [Range(3, 10)] public int CubesGenerationDifficulty = 3;
     [Range(5, 20)] public int ObstacleGenerationDifficulty = 5;
 
 }

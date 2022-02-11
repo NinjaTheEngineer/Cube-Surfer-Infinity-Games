@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private GameObject playerGO, levelGO, uiManagerGO;
     private LevelGenerator levelGenerator;
     private PlayerController playerController;
-    private int currentLevel;
+    private int currentLevel, cheeseCollectedAmount;
 
     private void Awake()
     {
@@ -31,13 +31,15 @@ public class GameManager : MonoBehaviour
         cinemachine.LookAt = playerController.GetComponent<Transform>();
         cinemachine.Follow = playerController.GetComponent<Transform>();
         uiManager.Initialize(listOfLevels.Length);
+        UpdateCheeseAmount();
     }
     public void Restart()
     {
         Destroy(playerGO);
         Destroy(levelGO);
         Destroy(uiManagerGO);
-        Initialize();    }
+        Initialize();    
+    }
     public void OnLevelLoaded()
     {
         playerController.Initialize(levelGenerator.GetPathCreator(), levelGenerator.GetEndPoint());
@@ -54,17 +56,44 @@ public class GameManager : MonoBehaviour
     }
     public void OnLevelFinished()
     {
-        if(PlayerPrefs.GetInt("maxLevel", 0) <= currentLevel)
+        if(PlayerPrefs.GetInt("maxLevel", 0) <= currentLevel && PlayerPrefs.GetInt("maxLevel", 0) <= listOfLevels.Length)
         {
             PlayerPrefs.SetInt("maxLevel", currentLevel + 1);
             PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
             uiManager.UpdateAvailableLevels();
         }
+        if(currentLevel < listOfLevels.Length)
+        {
+            uiManager.ShowNextLevelScreen();
+        }
+        else
+        {
+            uiManager.ShowEndGameScreen();
+        }
+
     }
 
+    public void OnCheeseCollected()
+    {
+        cheeseCollectedAmount = PlayerPrefs.GetInt("cheeseAmount", 0);
+        cheeseCollectedAmount++;
+        PlayerPrefs.SetInt("cheeseAmount", cheeseCollectedAmount);
+        UpdateCheeseAmount();
+    }
+    private void UpdateCheeseAmount()
+    {
+        cheeseCollectedAmount = PlayerPrefs.GetInt("cheeseAmount", 0);
+        uiManager.UpdateCheeseAmount(cheeseCollectedAmount);
+    }
     public void OnLevelSwitch()
     {
         currentLevel = PlayerPrefs.GetInt("currentLevel", 0);
+        Restart();
+    }
+    public void GoToNextLevel()
+    {
+        currentLevel = PlayerPrefs.GetInt("currentLevel", 0);
+        PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
         Restart();
     }
 
