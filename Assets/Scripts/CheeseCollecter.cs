@@ -5,7 +5,7 @@ using UnityEngine;
 public class CheeseCollecter : MonoBehaviour
 {
     [SerializeField] private GameEvent cheeseCollected;
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter(Collider collision) //To check if a cheese is collected
     {
         if (collision.CompareTag("Cheese"))
         {

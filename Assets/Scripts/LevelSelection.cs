@@ -15,24 +15,24 @@ public class LevelSelection : MonoBehaviour
     private int currentLevel;
     private int maxLevel;
 
-    public void Initialize(int numberOfLevels)
+    public void Initialize(int numberOfLevels) //Initializes the level selector with a number of levels
     {
         lvlButtons = new List<Button>();
         currentLevel = PlayerPrefs.GetInt("currentLevel", 0);
-        for (int i = 0; i < numberOfLevels; i++)
+        for (int i = 0; i < numberOfLevels; i++) //Create a button for each level
         {
             int x = i;
             Button button = Instantiate(levelButtonPrefab, buttonsGrid).GetComponentInChildren<Button>();
             button.onClick.AddListener(delegate
                                             {
                                                 SwitchLevel(x);
-                                                onButtonClick.Raise();
+                                                onButtonClick.Raise(); //click listener to each button
                                             });
             lvlButtons.Add(button);
         }
         UpdateAvailableLevels();
     }
-    public void UpdateAvailableLevels()
+    public void UpdateAvailableLevels() //Starts the coroutine
     {
         StartCoroutine(UpdateLevels());
     }
@@ -40,7 +40,7 @@ public class LevelSelection : MonoBehaviour
     {
         SwitchLevel(currentLevel);
     }
-    IEnumerator UpdateLevels()
+    IEnumerator UpdateLevels() //Updates the available levels and their text
     {
         yield return new WaitForSeconds(0.5f);
         maxLevel = PlayerPrefs.GetInt("maxLevel", 0);
@@ -50,7 +50,7 @@ public class LevelSelection : MonoBehaviour
             lvlButtons[i].interactable = (i <= maxLevel);
         }
     }
-    public void SwitchLevel(int level)
+    public void SwitchLevel(int level) //Switch to a new level
     {
         maxLevel = PlayerPrefs.GetInt("maxLevel", 0);
         if (maxLevel >= level)

@@ -9,7 +9,7 @@ public class SoundManager: MonoBehaviour
 
     private GameObject oneShotGO;
     private AudioSource oneShotAudioSource;
-    private void PlaySound(Sound sound)
+    private void PlaySound(Sound sound) //Play sound in a single game object
     {
         if(oneShotGO == null)
         {
@@ -19,7 +19,7 @@ public class SoundManager: MonoBehaviour
         oneShotAudioSource.PlayOneShot(GetAudioClip(sound));
     }
 
-    private AudioClip GetAudioClip(Sound sound)
+    private AudioClip GetAudioClip(Sound sound) //Play sound for given enum Sound
     {
         foreach(SoundAudioClip soundAudioClip in soundAudioClipArray)
         {
@@ -54,7 +54,7 @@ public class SoundManager: MonoBehaviour
         PlaySound(Sound.EatCheese);
     }
 
-    public enum Sound
+    public enum Sound //All possible game sounds
     {
         CubeCollected,
         ObstacleHit,

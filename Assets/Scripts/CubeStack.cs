@@ -16,11 +16,11 @@ public class CubeStack : MonoBehaviour
     private int amountOfCubesStacked = 0;
     private bool isOnTopOfObstacle = false;
 
-    private void Start()
+    private void Start() //Initialize stacked cubes list
     {
         stackedCubes = new List<GameObject>();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //Check if collision trigger with cubes or obstacles
     {
         if (other.CompareTag("Cube"))
         {
@@ -28,7 +28,7 @@ public class CubeStack : MonoBehaviour
         }
         else if (other.CompareTag("Obstacle") && !isOnTopOfObstacle)
         {
-            if (amountOfCubesStacked.Equals(0))
+            if (amountOfCubesStacked.Equals(0)) //If no cubes are stacked fails the level
             {
                 LevelFailed();
                 return;
@@ -36,9 +36,9 @@ public class CubeStack : MonoBehaviour
             ObstacleHit();
         }
     }
-    private void CollectingCube(Collider collider)
+    private void CollectingCube(Collider collider) //Collects cube and handles player position and cube
     {
-        onCollectedCube.Raise();
+        onCollectedCube.Raise(); //Raises collected cube event
         amountOfCubesStacked++;
         playerModelTransform.localPosition = new Vector3(0, playerModelTransform.localPosition.y + cubeHeight, 0);
         stackedCubes.Add(collider.gameObject);
@@ -46,9 +46,9 @@ public class CubeStack : MonoBehaviour
         collider.transform.localPosition = new Vector3(0, amountOfCubesStacked * cubeHeight, 0);
         collider.transform.localRotation = Quaternion.identity;
     }
-    private void ObstacleHit()
+    private void ObstacleHit() //Handles obstacle hit, leaving one cube behind if possible
     {
-        onObstacleHit.Raise();
+        onObstacleHit.Raise(); //Raises obstacle hit event
         isOnTopOfObstacle = true;
         amountOfCubesStacked--;
         int lastCube = stackedCubes.Count - 1;
@@ -60,12 +60,12 @@ public class CubeStack : MonoBehaviour
         stackedCubes[lastCube].transform.localPosition = new Vector3(cubePos.x, initY, cubePos.z);
         stackedCubes.RemoveAt(lastCube);
     }
-    private void LevelFailed()
+    private void LevelFailed() //Raises of level ended
     {
         onLevelFailed.Raise();
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) //Checks when out of obstacle to restore player position
     {
         if (other.CompareTag("Obstacle") && isOnTopOfObstacle)
         {

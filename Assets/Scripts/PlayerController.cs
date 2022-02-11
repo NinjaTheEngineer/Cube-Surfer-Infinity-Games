@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private bool leftCheck = false;
     private bool rightCheck = false;
 
-    private void Update()
+    private void Update() //Handles all logic
     {
         CheckForLevelStart();
         HandlePlayerInput();
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         EndCheck();
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() //Handles physics
     {
         if ( gameStarted && !levelFailed)
         {
@@ -40,9 +40,9 @@ public class PlayerController : MonoBehaviour
             HandleMovementAndRotation();
         }
     }
-    public void HandlePlayerInput()
+    public void HandlePlayerInput() //Handles player input in android and unity editor
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID  //If playing in android device
         if(Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
@@ -72,13 +72,13 @@ public class PlayerController : MonoBehaviour
         }
 #endif
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR //If playing in the unity editor
 
         horizontalMovement = Input.GetAxisRaw("Horizontal");
 
 #endif
     }
-    private void CheckForLevelStart()
+    private void CheckForLevelStart() //Check for the player first input to start to move
     {
         if ((horizontalMovement > 0f || horizontalMovement < 0f) && !levelFailed)
         {
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
             levelStarted.Raise();
         }
     }
-    public void Initialize(PathCreator pathCreator, int endPoint)
+    public void Initialize(PathCreator pathCreator) //Initializes the player with the current path
     {
         this.pathCreator = pathCreator;
         Vector3 initiaPos = pathCreator.path.GetPointAtDistance(0);
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         transform.position = initiaPos;
         transform.rotation = pathCreator.path.GetRotationAtDistance(0);
     }
-    private void HandleMovementAndRotation()
+    private void HandleMovementAndRotation() //Handle player movement and rotation in the path
     {
         transform.position += transform.forward * Time.deltaTime * Speed;
         perpendicularVector = Vector3.Cross(transform.forward, Vector3.up).normalized;
@@ -109,11 +109,11 @@ public class PlayerController : MonoBehaviour
             transform.position += perpendicularVector * -horizontalMovement * Time.deltaTime * Speed;
         }
     }
-    public void LevelFailed()
+    public void LevelFailed() //Set level to failed
     {
         levelFailed = true;
     }
-    private void WallChecks()
+    private void WallChecks() //Check if colliding with the edge walls
     {
         if (Physics.Raycast(leftCheckPos.position, -leftCheckPos.right, 0.5f, WhatIsWall))
         {
@@ -132,16 +132,16 @@ public class PlayerController : MonoBehaviour
             rightCheck = false;
         }
     }
-    private void EndCheck()
+    private void EndCheck() //Check if the player has reached the end of the level
     {
         if ((Physics.Raycast(endCheckPos.position, endCheckPos.right, 5f, WhatIsEnd) ||
             Physics.Raycast(endCheckPos.position, -endCheckPos.right, 5f, WhatIsEnd)) && gameStarted)
             EndReached();
     }
-    private void EndReached()
+    private void EndReached() //Handles end reached
     {
         playerInitialized = false;
         gameStarted = false;
-        levelFinished.Raise();
+        levelFinished.Raise(); //Raises end reach event
     }
 }
