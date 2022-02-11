@@ -6,11 +6,17 @@ public class SoundManager: MonoBehaviour
 {
     [SerializeField]
     private SoundAudioClip[] soundAudioClipArray;
+
+    private GameObject oneShotGO;
+    private AudioSource oneShotAudioSource;
     private void PlaySound(Sound sound)
     {
-        GameObject soundGO = new GameObject("Sound");
-        AudioSource audioSource = soundGO.AddComponent<AudioSource>();
-        audioSource.PlayOneShot(GetAudioClip(sound));
+        if(oneShotGO == null)
+        {
+            oneShotGO = new GameObject("Sound");
+            oneShotAudioSource = oneShotGO.AddComponent<AudioSource>();
+        }
+        oneShotAudioSource.PlayOneShot(GetAudioClip(sound));
     }
 
     private AudioClip GetAudioClip(Sound sound)

@@ -44,7 +44,6 @@ public class LevelSelection : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         maxLevel = PlayerPrefs.GetInt("maxLevel", 0);
-        Debug.Log(">Max level -" + maxLevel);
         for (int i = 0; i < lvlButtons.Count; i++)
         {
             lvlButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
@@ -53,9 +52,7 @@ public class LevelSelection : MonoBehaviour
     }
     public void SwitchLevel(int level)
     {
-        Debug.Log(">> level -> " + level);
         maxLevel = PlayerPrefs.GetInt("maxLevel", 0);
-        Debug.Log(">> maxLevel -> " + maxLevel);
         if (maxLevel >= level)
         {
             Time.timeScale = 1f;

@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
             uiManager.UpdateAvailableLevels();
         }
-        if(currentLevel < listOfLevels.Length)
+        if(currentLevel <= listOfLevels.Length - 1)
         {
             uiManager.ShowNextLevelScreen();
         }
